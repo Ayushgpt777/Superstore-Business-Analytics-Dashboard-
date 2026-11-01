@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Superstore Business Performance & Sales Analytics Dashboard - Comprehensive descriptive analytics platform built with HTML, CSS, JavaScript, and Node.js.">
+  <title>Superstore Business Performance & Sales Analytics | Home</title>
+  <link rel="stylesheet" href="/css/styles.css">
+
+  <!-- Pre-render Theme Application to prevent FOUC -->
+  <script>
+    (function() {
+      const saved = localStorage.getItem('superstore_theme');
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+</head>
+<body class="homepage-body">
+
+  <!-- 1. NAVIGATION BAR & PROJECT BRANDING -->
+  <header class="home-nav">
+    <div class="brand-badge">
+      <div class="brand-logo">S</div>
+      <div>
+        <span>Superstore Analytics</span>
+        <span class="badge badge-primary" style="margin-left: 0.5rem; font-size: 0.7rem;">v1.0</span>
+      </div>
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#dataset">Dataset</a></li>
+        <li><a href="#tech-stack">Tech Stack</a></li>
+        
+        <!-- Theme Toggle Button -->
+        <li>
+          <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Light / Dark Mode" aria-label="Toggle Theme">
+            <span class="theme-icon">
+              <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+              <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </span>
+          </button>
+        </li>
+
+        <!-- Authentication Links (Populated dynamically) -->
+        <li id="nav-auth-links" style="display: flex; align-items: center; gap: 0.75rem;">
+          <a href="/login.html" class="btn btn-secondary btn-sm" id="btn-nav-login">Sign In</a>
+          <a href="/signup.html" class="btn btn-primary btn-sm" id="btn-nav-register">Create Account</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- 2. HERO SECTION -->
+  <section class="hero-section">
+    <div class="hero-pill">
+      <span class="status-dot"></span>
+      <span>Enterprise Descriptive Analytics Platform</span>
+    </div>
+    <h1 class="hero-title">
+      Superstore Business Performance & <span>Sales Analytics</span>
+    </h1>
+    <p class="hero-subtitle">
+      A powerful, web-based business intelligence suite designed to transform 9,800 retail sales transactions into clear, actionable executive insights through interactive visual analytics, multi-dimensional filtering, secure user authentication, and granular record exploration.
+    </p>
+
+    <!-- 10. OPEN DASHBOARD BUTTON & REGISTRATION -->
+    <div class="hero-actions">
+      <a href="/business%20dashboard.html" class="btn btn-primary" style="font-size: 1.05rem; padding: 0.85rem 2rem;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <span>Open Business Dashboard</span>
+      </a>
+      <a href="/signup.html" class="btn btn-secondary" style="font-size: 1.05rem; padding: 0.85rem 1.75rem;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+        <span>Create Account</span>
+      </a>
+    </div>
+
+    <!-- LIVE STATS BANNER -->
+    <div class="hero-stats-banner">
+      <div class="stat-item">
+        <div class="stat-label">Total Revenue</div>
+        <div class="stat-value" id="hero-total-sales">$2,261,536.93</div>
+        <div class="stat-sub">From 9,800 Transactions</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Total Orders</div>
+        <div class="stat-value" id="hero-total-orders">4,922</div>
+        <div class="stat-sub">Distinct Orders Handled</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Customers Served</div>
+        <div class="stat-value" id="hero-total-customers">793</div>
+        <div class="stat-sub">Across 3 Market Segments</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Average Order Value</div>
+        <div class="stat-value" id="hero-aov">$459.48</div>
+        <div class="stat-sub">Sales Per Unique Order</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. PROJECT INTRODUCTION & 6. DASHBOARD OVERVIEW -->
+  <section id="overview" class="section section-alt">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">Executive Summary</div>
+        <h2 class="section-title">What Happened? Understanding Retail Performance</h2>
+        <p class="section-desc">
+          Rooted strictly in descriptive analytics, the Superstore Dashboard synthesizes four years of transactional history (2015–2018) to deliver factual clarity without black-box models or speculative forecasting.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="feature-card">
+          <div class="feature-icon blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <h3 class="feature-title">Revenue & Category Dynamics</h3>
+          <p class="feature-text">
+            Identify which product families and categories yield the highest retail returns. Explore how Technology, Furniture, and Office Supplies contribute across 17 granular sub-categories.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          </div>
+          <h3 class="feature-title">Geographical Market Penetration</h3>
+          <p class="feature-text">
+            Analyze regional sales dispersion across the West, East, Central, and South zones, alongside state-level sales rankings that highlight top revenue-generating markets like California and New York.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="feature-title">Customer Segmentation & Logistics</h3>
+          <p class="feature-text">
+            Evaluate the contribution of Consumer, Corporate, and Home Office clients, while evaluating logistical efficiency across Standard Class, Second Class, First Class, and Same Day shipping.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. PROJECT FEATURES -->
+  <section id="features" class="section">
+    <div class="section-header">
+      <div class="section-tag">Core Capabilities</div>
+      <h2 class="section-title">Built for Interactive Decision-Making</h2>
+      <p class="section-desc">
+        Every component is synchronized with the backend analytics engine to ensure instant feedback and audit-grade calculations.
+      </p>
+    </div>
+
+    <div class="grid-4">
+      <div class="feature-card">
+        <div class="feature-icon blue">🔐</div>
+        <h3 class="feature-title">Secure Authentication</h3>
+        <p class="feature-text">
+          Enterprise login & registration system powered by salted bcrypt password hashing, HTTP-only session cookies, and route protection.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon amber">🌓</div>
+        <h3 class="feature-title">Light & Dark Mode</h3>
+        <p class="feature-text">
+          Fully reactive theme system with smooth CSS variable transitions and dynamic Chart.js palette adaptation saved in localStorage.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon green">⚡</div>
+        <h3 class="feature-title">Multi-Dimensional Filtering</h3>
+        <p class="feature-text">
+          Slice and dice records simultaneously across custom Date Ranges, Geographic Regions, Product Categories, Customer Segments, and Shipping Modes.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon cyan">📑</div>
+        <h3 class="feature-title">Granular Records Explorer</h3>
+        <p class="feature-text">
+          Full transactional table with instantaneous cross-column text search, column-based sorting, pagination controls, and verified empty-state handling.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. DATASET INFORMATION -->
+  <section id="dataset" class="section section-alt">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">Data Integrity</div>
+        <h2 class="section-title">Kaggle Sample Superstore Dataset</h2>
+        <p class="section-desc">
+          Strict data governance standards ensure complete reproducibility with zero synthetic injection.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="dataset-spec-card">
+          <div class="dataset-header">
+            <strong>Dataset Profile & Schema</strong>
+            <span class="badge badge-success">Verified Original CSV</span>
+          </div>
+          <div class="dataset-body">
+            <table class="dataset-table">
+              <tbody>
+                <tr>
+                  <td><strong>Total Records</strong></td>
+                  <td>9,800 transaction rows</td>
+                </tr>
+                <tr>
+                  <td><strong>Total Columns</strong></td>
+                  <td>18 official attributes</td>
+                </tr>
+                <tr>
+                  <td><strong>Duplicate Records</strong></td>
+                  <td><span class="badge badge-success">0 Duplicates Detected</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Temporal Range</strong></td>
+                  <td>January 3, 2015 – December 30, 2018 (4 Full Years)</td>
+                </tr>
+                <tr>
+                  <td><strong>Missing Values Handling</strong></td>
+                  <td>11 records with missing Postal Codes (Burlington, Vermont) handled safely as "N/A"</td>
+                </tr>
+                <tr>
+                  <td><strong>Date Format</strong></td>
+                  <td>Parsed from DD/MM/YYYY into ISO YYYY-MM-DD</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <div class="dataset-spec-card" style="height: 100%;">
+            <div class="dataset-header" style="background: #1e293b;">
+              <strong>Data Governance & Non-Fabrication Rules</strong>
+              <span class="badge badge-warning">Descriptive Only</span>
+            </div>
+            <div class="dataset-body">
+              <p style="font-size: 0.925rem; color: var(--text-muted); margin-bottom: 1rem;">
+                This application adheres strictly to honest data reporting standards. All calculated totals and visual breakdowns mirror the underlying CSV file byte-for-byte.
+              </p>
+              
+              <div class="callout-box">
+                <strong>CRITICAL DATASET BOUNDARY NOTICE:</strong>
+                This specific Kaggle Sample Superstore CSV file does <strong>NOT</strong> contain Profit, Discount, or Quantity columns. Per strict data integrity guidelines, these metrics are neither fabricated, estimated, nor displayed.
+              </div>
+
+              <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <span class="badge badge-primary">Row ID</span>
+                <span class="badge badge-primary">Order ID</span>
+                <span class="badge badge-primary">Order Date</span>
+                <span class="badge badge-primary">Ship Date</span>
+                <span class="badge badge-primary">Ship Mode</span>
+                <span class="badge badge-primary">Customer ID</span>
+                <span class="badge badge-primary">Customer Name</span>
+                <span class="badge badge-primary">Segment</span>
+                <span class="badge badge-primary">Country</span>
+                <span class="badge badge-primary">City</span>
+                <span class="badge badge-primary">State</span>
+                <span class="badge badge-primary">Postal Code</span>
+                <span class="badge badge-primary">Region</span>
+                <span class="badge badge-primary">Product ID</span>
+                <span class="badge badge-primary">Category</span>
+                <span class="badge badge-primary">Sub-Category</span>
+                <span class="badge badge-primary">Product Name</span>
+                <span class="badge badge-primary">Sales</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. TECHNOLOGY STACK -->
+  <section id="tech-stack" class="section">
+    <div class="section-header">
+      <div class="section-tag">Clean Architecture</div>
+      <h2 class="section-title">Technology Stack</h2>
+      <p class="section-desc">
+        Lightweight, dependable, and beginner-friendly web architecture free from complex framework overhead.
+      </p>
+    </div>
+
+    <div class="grid-4">
+      <div class="feature-card" style="border-top: 3px solid #e34c26;">
+        <h3 class="feature-title">HTML5 & CSS3</h3>
+        <p class="feature-text">
+          Semantic architecture with custom properties, CSS Grid/Flexbox layouts, and instant Light & Dark theme support.
+        </p>
+      </div>
+
+      <div class="feature-card" style="border-top: 3px solid #f7df1e;">
+        <h3 class="feature-title">Vanilla JavaScript (ES6+)</h3>
+        <p class="feature-text">
+          Native client architecture with asynchronous Fetch API, stateful filter management, and dynamic DOM updates.
+        </p>
+      </div>
+
+      <div class="feature-card" style="border-top: 3px solid #36a2eb;">
+        <h3 class="feature-title">Chart.js Visualizations</h3>
+        <p class="feature-text">
+          8 interactive visual charts rendering smoothly across line, doughnut, and bar topologies with theme reactivity.
+        </p>
+      </div>
+
+      <div class="feature-card" style="border-top: 3px solid #68a063;">
+        <h3 class="feature-title">Node.js & Express.js</h3>
+        <p class="feature-text">
+          Bcrypt-secured authentication, session cookies, route protection, CSV streaming, and automated port allocation.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. FOOTER -->
+  <footer class="home-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="brand-badge" style="color: #ffffff; margin-bottom: 0.5rem;">
+          <div class="brand-logo">S</div>
+          <span>Superstore Analytics Dashboard</span>
+        </div>
+        <p style="font-size: 0.825rem; color: #94a3b8;">
+          A Business Dashboard Development Project | HTML5 • CSS3 • JavaScript • Node.js
+        </p>
+      </div>
+      <div>
+        <a href="/business%20dashboard.html" class="btn btn-primary">
+          <span>Go to Interactive Dashboard</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-copy">
+      &copy; 2026 Superstore Business Performance & Sales Analytics Dashboard. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Quick Home Script for live stats, theme toggle & auth state -->
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Theme Management
+      const themeBtn = document.getElementById('theme-toggle');
+
+      function updateThemeUI() {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const moon = document.querySelector('.icon-moon');
+        const sun = document.querySelector('.icon-sun');
+        if (moon && sun) {
+          moon.style.display = isDark ? 'none' : 'block';
+          sun.style.display = isDark ? 'block' : 'none';
+        }
+        if (themeBtn) {
+          themeBtn.title = isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+        }
+      }
+      updateThemeUI();
+
+      if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+          const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+          const newTheme = isDark ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', newTheme);
+          localStorage.setItem('superstore_theme', newTheme);
+          updateThemeUI();
+        });
+      }
+
+      // 2. Fetch User Auth State
+      try {
+        const authRes = await fetch('/api/auth/me');
+        if (authRes.ok) {
+          const authData = await authRes.json();
+          const authContainer = document.getElementById('nav-auth-links');
+          if (authData.authenticated && authData.user && authContainer) {
+            authContainer.innerHTML = `
+              <div class="user-profile-badge">
+                <div class="user-avatar">${authData.user.fullName ? authData.user.fullName.split(' ').map(n=>n[0]).join('').slice(0,2) : 'U'}</div>
+                <span class="user-name-text">${authData.user.fullName || authData.user.username}</span>
+              </div>
+              <a href="/business%20dashboard.html" class="btn btn-primary btn-sm">Dashboard</a>
+            `;
+          }
+        }
+      } catch (err) {
+        // Fallback to default auth links
+      }
+
+      // 3. Fetch Live Summary Stats
+      try {
+        const res = await fetch('/api/analytics/summary');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && json.data) {
+            const d = json.data;
+            const fmtCurr = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+            const fmtNum = new Intl.NumberFormat('en-US');
+
+            const sEl = document.getElementById('hero-total-sales');
+            const oEl = document.getElementById('hero-total-orders');
+            const cEl = document.getElementById('hero-total-customers');
+            const aEl = document.getElementById('hero-aov');
+
+            if (sEl) sEl.textContent = fmtCurr.format(d.totalSales);
+            if (oEl) oEl.textContent = fmtNum.format(d.totalOrders);
+            if (cEl) cEl.textContent = fmtNum.format(d.totalCustomers);
+            if (aEl) aEl.textContent = fmtCurr.format(d.averageOrderValue);
+          }
+        }
+      } catch (err) {
+        console.log('Homepage loaded with static fallback indicators.');
+      }
+    });
+  </script>
+</body>
+</html>

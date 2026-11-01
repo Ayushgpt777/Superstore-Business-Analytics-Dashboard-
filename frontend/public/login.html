@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Superstore Business Analytics Dashboard - Secure User Login">
+  <title>Login | Superstore Business Analytics Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <!-- Inline theme preloader to prevent flash of wrong theme -->
+  <script>
+    (function() {
+      const saved = localStorage.getItem('superstore_theme');
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+</head>
+<body class="auth-page">
+
+  <!-- AUTH TOP BAR -->
+  <header class="auth-nav">
+    <a href="/index.html" class="brand-badge" title="Return to Homepage">
+      <div class="brand-logo">S</div>
+      <span>Superstore Analytics</span>
+    </a>
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+      <!-- Theme Toggle Button -->
+      <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Light / Dark Mode" aria-label="Toggle Theme">
+        <span class="theme-icon">
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </span>
+      </button>
+      <a href="/index.html" class="btn btn-secondary btn-sm">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span>Homepage</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- AUTH CARD CONTAINER -->
+  <main class="auth-main">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo-badge">S</div>
+        <h1 class="auth-title">Welcome Back</h1>
+        <p class="auth-subtitle">Sign in to access your business analytics workspace</p>
+      </div>
+
+      <!-- Feedback Alert Banner -->
+      <div id="auth-alert" class="auth-alert" role="alert"></div>
+
+      <!-- Login Form -->
+      <form id="login-form" class="auth-form" novalidate>
+        <!-- Username Field -->
+        <div class="form-group">
+          <label for="username" class="form-label">Username</label>
+          <input 
+            type="text" 
+            id="username" 
+            name="username" 
+            class="form-control" 
+            placeholder="Enter your username" 
+            required 
+            autocomplete="username"
+            autofocus
+          >
+        </div>
+
+        <!-- Password Field with Show/Hide Toggle -->
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <div class="password-input-wrap">
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              class="form-control" 
+              placeholder="Enter your password" 
+              required 
+              autocomplete="current-password"
+            >
+            <button type="button" class="password-toggle-btn" id="btn-toggle-password" title="Show/Hide password" aria-label="Toggle password visibility">
+              <svg class="eye-show" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-hide" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember Me Option -->
+        <div class="auth-checkbox-row">
+          <label class="checkbox-label" for="remember-me">
+            <input type="checkbox" id="remember-me" name="rememberMe" style="accent-color: var(--primary);">
+            <span>Remember me (30 days)</span>
+          </label>
+        </div>
+
+        <!-- Login Button -->
+        <button type="submit" id="btn-submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem; font-size: 0.95rem;">
+          <span>Sign In to Dashboard</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+
+      <!-- Link to Create New Account -->
+      <div class="auth-footer">
+        <span>Don't have an account yet?</span>
+        <a href="/signup.html" style="font-weight: 600; margin-left: 0.35rem;">Create New Account</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Login Logic & Theme Script -->
+  <script>
+    // Theme Management
+    const themeBtn = document.getElementById('theme-toggle');
+
+    function updateThemeUI() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const moon = document.querySelector('.icon-moon');
+      const sun = document.querySelector('.icon-sun');
+      if (moon && sun) {
+        moon.style.display = isDark ? 'none' : 'block';
+        sun.style.display = isDark ? 'block' : 'none';
+      }
+      if (themeBtn) {
+        themeBtn.title = isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+      }
+    }
+    updateThemeUI();
+
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const newTheme = isDark ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('superstore_theme', newTheme);
+        updateThemeUI();
+      });
+    }
+
+    // Password Visibility Toggle
+    const btnToggle = document.getElementById('btn-toggle-password');
+    const passwordInput = document.getElementById('password');
+    if (btnToggle && passwordInput) {
+      btnToggle.addEventListener('click', () => {
+        const isPassword = passwordInput.getAttribute('type') === 'password';
+        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+        const eyeShow = btnToggle.querySelector('.eye-show');
+        const eyeHide = btnToggle.querySelector('.eye-hide');
+        if (eyeShow && eyeHide) {
+          eyeShow.style.display = isPassword ? 'none' : 'block';
+          eyeHide.style.display = isPassword ? 'block' : 'none';
+        }
+      });
+    }
+
+    // Form Submission & Authentication
+    const loginForm = document.getElementById('login-form');
+    const alertBox = document.getElementById('auth-alert');
+    const submitBtn = document.getElementById('btn-submit');
+
+    function showAlert(msg, isError = true) {
+      if (!alertBox) return;
+      alertBox.textContent = msg;
+      alertBox.className = isError ? 'auth-alert error' : 'auth-alert success';
+      alertBox.style.display = 'block';
+    }
+
+    if (loginForm) {
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        alertBox.style.display = 'none';
+
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        const rememberMe = document.getElementById('remember-me').checked;
+
+        if (!username) {
+          showAlert('Please enter your username.');
+          return;
+        }
+        if (!password) {
+          showAlert('Please enter your password.');
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>Verifying credentials...</span>';
+
+        try {
+          const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password, rememberMe })
+          });
+
+          const data = await res.json();
+
+          if (!res.ok || !data.success) {
+            showAlert(data.message || 'Login failed. Please check your credentials.');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span>Sign In to Dashboard</span>';
+            return;
+          }
+
+          showAlert('Login successful! Redirecting...', false);
+
+          // Redirect to target or dashboard
+          const urlParams = new URLSearchParams(window.location.search);
+          const redirect = urlParams.get('redirect') || '/business%20dashboard.html';
+
+          setTimeout(() => {
+            window.location.href = redirect;
+          }, 600);
+        } catch (err) {
+          showAlert('Network error occurred. Please try again.');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span>Sign In to Dashboard</span>';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
